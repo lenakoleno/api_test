@@ -1,7 +1,3 @@
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
-
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.IOException;
@@ -34,20 +30,23 @@ public class TestRestClass {
             json
         );
 
+        OkHttpClient client = new OkHttpClient();
+        Call call = client.newCall(createRequest(body));
+        Response response = call.execute();
+
+        Object obj = new JsonParser().parse(response.body().string());
+        JsonObject jo = (JsonObject) obj;
+        String text = jo.get("translations").getAsJsonArray().get(0).getAsJsonObject().get("text").getAsString();
+        System.out.println(text);
+    }
+
+    public Request createRequest(RequestBody body) {
         Request request = new Request.Builder()
             .url(url)
             .post(body)
             .addHeader("Content-Type", "application/json")
             .addHeader("Authorization", key)
             .build();
-        OkHttpClient client = new OkHttpClient();
-        Call call = client.newCall(request);
-        Response response = call.execute();
-
-
-        Object obj = new JsonParser().parse(response.body().string());
-        JsonObject jo = (JsonObject) obj;
-        String text = jo.get("translations").getAsJsonArray().get(0).getAsJsonObject().get("text").getAsString();
-        System.out.println(text);
+        return request;
     }
 }
