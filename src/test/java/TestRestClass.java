@@ -16,7 +16,7 @@ import org.junit.Test;
 public class TestRestClass {
 
     final String key =
-        "t1.9euelZqLyJbNz46Wl5WOj5qPy8uUlu3rnpWakciXisjMlZWPzsvMmMySjZjl9Pd_f29v-e9kI3Dp3fT3Py5tb_nvZCNw6Q.7DRsxhzMQdShWyCDngx1tG0TxXUWi3Zzu3hV9Sspp7kU2tmtxjBtVxP25Q5Bj8w-OxFyELMb4CQxJTv6wWI7CQ";
+        "Bearer t1.9euelZqLyJbNz46Wl5WOj5qPy8uUlu3rnpWakciXisjMlZWPzsvMmMySjZjl9Pd_f29v-e9kI3Dp3fT3Py5tb_nvZCNw6Q.7DRsxhzMQdShWyCDngx1tG0TxXUWi3Zzu3hV9Sspp7kU2tmtxjBtVxP25Q5Bj8w-OxFyELMb4CQxJTv6wWI7CQ";
 
     final String url = "https://translate.api.cloud.yandex.net/translate/v2/translate";
 
@@ -38,7 +38,7 @@ public class TestRestClass {
             .url(url)
             .post(body)
             .addHeader("Content-Type", "application/json")
-            .addHeader("Authorization", "Bearer" + key)
+            .addHeader("Authorization", key)
             .build();
         OkHttpClient client = new OkHttpClient();
         Call call = client.newCall(request);
