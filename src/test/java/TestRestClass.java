@@ -13,8 +13,12 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.junit.Test;
 
-
 public class TestRestClass {
+
+    final String key =
+        "t1.9euelZqLyJbNz46Wl5WOj5qPy8uUlu3rnpWakciXisjMlZWPzsvMmMySjZjl9Pd_f29v-e9kI3Dp3fT3Py5tb_nvZCNw6Q.7DRsxhzMQdShWyCDngx1tG0TxXUWi3Zzu3hV9Sspp7kU2tmtxjBtVxP25Q5Bj8w-OxFyELMb4CQxJTv6wWI7CQ";
+
+    final String url = "https://translate.api.cloud.yandex.net/translate/v2/translate";
 
     @Test
     public void whenSendPostRequest_thenCorrect()
@@ -31,14 +35,15 @@ public class TestRestClass {
         );
 
         Request request = new Request.Builder()
-            .url("https://translate.api.cloud.yandex.net/translate/v2/translate")
+            .url(url)
             .post(body)
             .addHeader("Content-Type", "application/json")
-            .addHeader("Authorization", "Bearer t1.9euelZqLyJbNz46Wl5WOj5qPy8uUlu3rnpWakciXisjMlZWPzsvMmMySjZjl9Pd_f29v-e9kI3Dp3fT3Py5tb_nvZCNw6Q.7DRsxhzMQdShWyCDngx1tG0TxXUWi3Zzu3hV9Sspp7kU2tmtxjBtVxP25Q5Bj8w-OxFyELMb4CQxJTv6wWI7CQ")
+            .addHeader("Authorization", "Bearer" + key)
             .build();
         OkHttpClient client = new OkHttpClient();
         Call call = client.newCall(request);
         Response response = call.execute();
+
 
         Object obj = new JsonParser().parse(response.body().string());
         JsonObject jo = (JsonObject) obj;
