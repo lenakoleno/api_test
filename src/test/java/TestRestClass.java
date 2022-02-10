@@ -1,6 +1,4 @@
-
-import static org.junit.Assert.assertEquals;
-
+import static org.testng.Assert.assertEquals;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.IOException;
@@ -30,7 +28,8 @@ public class TestRestClass {
         Object obj = new JsonParser().parse(response.body().string());
         JsonObject jo = (JsonObject) obj;
         String text = jo.get("translations").getAsJsonArray().get(0).getAsJsonObject().get("text").getAsString();
-        System.out.println(text);
+        assertEquals(response.code(), 200);
+        assertEquals(text, "Автоматизированное тестирование");
     }
 
     @Test
@@ -42,7 +41,8 @@ public class TestRestClass {
         Object obj = new JsonParser().parse(response.body().string());
         JsonObject jo = (JsonObject) obj;
         String text = jo.get("translations").getAsJsonArray().get(0).getAsJsonObject().get("text").getAsString();
-        System.out.println(text);
+        assertEquals(response.code(), 200);
+        assertEquals(text, "Automated testing");
     }
 
     @Test
@@ -52,7 +52,7 @@ public class TestRestClass {
             CommonUtils.createRequest((BuildJsonUtil.buildJson("b1g21kjlspgecjh6if8h", "Automated testing", "damn")),
                 url, key));
         Response response = call.execute();
-        assertEquals(400, response.code());
+        assertEquals(response.code(), 400);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class TestRestClass {
             CommonUtils.createRequest((BuildJsonUtil.buildJson("b1g21kjlspgecjh6if8h", "abracadabra", "ddd")), url,
                 key));
         Response response = call.execute();
-        assertEquals(400, response.code());
+        assertEquals(response.code(), 400);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class TestRestClass {
         Call call = client.newCall(
             CommonUtils.createRequest((BuildJsonUtil.buildJson("b1g21kjlspgecjh6if8h", "123", "123")), url, key));
         Response response = call.execute();
-        assertEquals(400, response.code());
+        assertEquals(response.code(), 400);
     }
 
     @Test
@@ -80,6 +80,6 @@ public class TestRestClass {
         Call call = client.newCall(
             CommonUtils.createRequest((BuildJsonUtil.buildJson("b1g21kjlspgecjh6if8h", " ", " ")), url, key));
         Response response = call.execute();
-        assertEquals(400, response.code());
+        assertEquals(response.code(), 400);
     }
 }
