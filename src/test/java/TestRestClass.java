@@ -1,15 +1,11 @@
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.IOException;
 import okhttp3.Call;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.junit.Test;
 import utils.BuildJsonUtil;
@@ -27,7 +23,9 @@ public class TestRestClass {
     @Test
     public void whenSendPostRequest_thenCorrectTest_id01()
         throws IOException {
-        Call call = client.newCall(CommonUtils.createRequest((BuildJsonUtil.buildJson("b1g21kjlspgecjh6if8h", "Automated testing", "ru")), url, key));
+        Call call = client.newCall(
+            CommonUtils.createRequest((BuildJsonUtil.buildJson("b1g21kjlspgecjh6if8h", "Automated testing", "ru")), url,
+                key));
         Response response = call.execute();
         Object obj = new JsonParser().parse(response.body().string());
         JsonObject jo = (JsonObject) obj;
@@ -38,19 +36,50 @@ public class TestRestClass {
     @Test
     public void whenSendPostRequest_thenCorrectTest_id02()
         throws IOException {
-        Call call = client.newCall(CommonUtils.createRequest((BuildJsonUtil.buildJson("b1g21kjlspgecjh6if8h", "Automated testing", "damn")), url, key));
+        Call call = client.newCall(CommonUtils.createRequest(
+            (BuildJsonUtil.buildJson("b1g21kjlspgecjh6if8h", "Автоматизированное тестирование", "en")), url, key));
         Response response = call.execute();
-        assertEquals(400, response.code());
+        Object obj = new JsonParser().parse(response.body().string());
+        JsonObject jo = (JsonObject) obj;
+        String text = jo.get("translations").getAsJsonArray().get(0).getAsJsonObject().get("text").getAsString();
+        System.out.println(text);
     }
 
     @Test
     public void whenSendPostRequest_thenCorrectTest_id03()
         throws IOException {
-        Call call = client.newCall(CommonUtils.createRequest((BuildJsonUtil.buildJson("b1g21kjlspgecjh6if8h", "abracadabra", "ddd")), url, key));
+        Call call = client.newCall(
+            CommonUtils.createRequest((BuildJsonUtil.buildJson("b1g21kjlspgecjh6if8h", "Automated testing", "damn")),
+                url, key));
         Response response = call.execute();
         assertEquals(400, response.code());
     }
 
+    @Test
+    public void whenSendPostRequest_thenCorrectTest_id04()
+        throws IOException {
+        Call call = client.newCall(
+            CommonUtils.createRequest((BuildJsonUtil.buildJson("b1g21kjlspgecjh6if8h", "abracadabra", "ddd")), url,
+                key));
+        Response response = call.execute();
+        assertEquals(400, response.code());
+    }
 
+    @Test
+    public void whenSendPostRequest_thenCorrectTest_id05()
+        throws IOException {
+        Call call = client.newCall(
+            CommonUtils.createRequest((BuildJsonUtil.buildJson("b1g21kjlspgecjh6if8h", "123", "123")), url, key));
+        Response response = call.execute();
+        assertEquals(400, response.code());
+    }
 
+    @Test
+    public void whenSendPostRequest_thenCorrectTest_id06()
+        throws IOException {
+        Call call = client.newCall(
+            CommonUtils.createRequest((BuildJsonUtil.buildJson("b1g21kjlspgecjh6if8h", " ", " ")), url, key));
+        Response response = call.execute();
+        assertEquals(400, response.code());
+    }
 }
