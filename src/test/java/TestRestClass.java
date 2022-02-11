@@ -16,6 +16,10 @@ public class TestRestClass {
 
     static final String url = "https://translate.api.cloud.yandex.net/translate/v2/translate";
 
+    static final String automTestRu = "Автоматизированное тестирование";
+
+    static final String automTestEn = "Automated testing";
+
     static final OkHttpClient client = new OkHttpClient();
 
     @Test
@@ -28,7 +32,7 @@ public class TestRestClass {
         JsonObject jo = (JsonObject) obj;
         String text = jo.get("translations").getAsJsonArray().get(0).getAsJsonObject().get("text").getAsString();
         assertEquals(response.code(), 200);
-        assertEquals(text, "Автоматизированное тестирование");
+        assertEquals(text, automTestRu);
     }
 
     @Test
@@ -41,7 +45,7 @@ public class TestRestClass {
         JsonObject jo = (JsonObject) obj;
         String text = jo.get("translations").getAsJsonArray().get(0).getAsJsonObject().get("text").getAsString();
         assertEquals(response.code(), 200);
-        assertEquals(text, "Automated testing");
+        assertEquals(text, automTestEn);
     }
 
     @Test
